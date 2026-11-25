@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Hritik Chaudhary</title>
+<meta name="description" content="Hritik Chaudhary. Queueing theory, matrix-analytic methods and applied probability. Kathmandu University graduate looking for a PhD position for 2027.">
+<meta property="og:title" content="Hritik Chaudhary">
+<meta property="og:description" content="Queueing theory, matrix-analytic methods and applied probability.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --text: #1f2328;
+    --muted: #5d646d;
+    --line: #e4e1da;
+    --card: #ffffff;
+    --accent: #1d5c8c;
+    --tag-bg: #eef3f7;
+    --tag-text: #2b4f6b;
+    --amber: #a15c00;
+    --amber-bg: #fdf1df;
+    --green: #2c6e3f;
+    --green-bg: #e7f3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a;
+      --text: #e6e6e3;
+      --muted: #9aa1a9;
+      --line: #2b2f35;
+      --card: #1c1f23;
+      --accent: #7db4e0;
+      --tag-bg: #22303b;
+      --tag-text: #a9cbe6;
+      --amber: #f0b56a;
+      --amber-bg: #3a2c19;
+      --green: #8fd0a1;
+      --green-bg: #1f3326;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Nav */
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 820px; margin: 0 auto; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .brand { font-weight: 600; color: var(--text); }
+  .nav-links a { margin-left: 22px; color: var(--muted); font-size: 15px; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 820px; margin: 0 auto; padding: 48px 24px 24px; }
+  section { margin-bottom: 56px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+  h2 {
+    font-size: 24px; margin: 0 0 20px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+
+  /* Intro */
+  .intro { display: flex; gap: 36px; align-items: flex-start; }
+  .intro-text { flex: 1; }
+  .intro h1 { font-size: 38px; margin: 0 0 4px; line-height: 1.2; }
+  .role { color: var(--muted); margin: 0 0 18px; }
+  .intro p { margin: 0 0 14px; }
+  .photo {
+    width: 180px; height: 180px; border-radius: 50%;
+    object-fit: cover; border: 1px solid var(--line); flex-shrink: 0;
+    background: var(--tag-bg); color: transparent;
+  }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--card);
+    padding: 10px 16px; margin: 18px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid var(--line); background: var(--card);
+    padding: 6px 13px; border-radius: 999px;
+    color: var(--text); font-size: 14px;
+  }
+  .links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .links svg { width: 15px; height: 15px; fill: currentColor; }
+
+  /* News */
+  .news { list-style: none; padding: 0; margin: 0; }
+  .news li {
+    display: grid; grid-template-columns: 96px 1fr; gap: 16px;
+    padding: 9px 0; border-bottom: 1px dashed var(--line);
+  }
+  .news li:last-child { border-bottom: none; }
+  .news time { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+
+  /* Research cards */
+  .cards { display: grid; gap: 16px; }
+  .card {
+    display: grid; grid-template-columns: 110px 1fr; gap: 20px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 18px;
+  }
+  .thumb {
+    width: 110px; height: 110px; border-radius: 8px;
+    background: var(--tag-bg); display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .thumb { background: #fff; border: 1px solid var(--line); }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 4px; display: block; }
+  .card h3 { font-size: 17px; margin: 4px 0 6px; line-height: 1.4; }
+  .card p { margin: 0 0 10px; font-size: 15px; color: var(--muted); }
+  .status {
+    display: inline-block; font-size: 12px; font-weight: 600;
+    padding: 2px 9px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .status.progress { color: var(--amber); background: var(--amber-bg); }
+  .status.review { color: var(--accent); background: var(--tag-bg); }
+  .status.done { color: var(--green); background: var(--green-bg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12.5px; padding: 2px 9px; border-radius: 4px;
+    background: var(--tag-bg); color: var(--tag-text);
+  }
+
+  /* Timeline lists */
+  .entries { display: grid; gap: 18px; }
+  .entry { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; }
+  .entry .title { font-weight: 600; }
+  .entry .org { color: var(--muted); grid-column: 1; }
+  .entry .date { color: var(--muted); font-size: 14px; grid-row: 1; grid-column: 2; white-space: nowrap; }
+  .entry .detail { grid-column: 1 / -1; font-size: 15px; margin-top: 2px; }
+
+  .proj-group { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 22px 0 10px; font-weight: 600; }
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .proj { display: flex; flex-direction: column; gap: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; color: var(--text); }
+  .proj:hover { border-color: var(--accent); text-decoration: none; }
+  .proj-name { font-weight: 600; font-size: 14.5px; color: var(--accent); overflow-wrap: anywhere; }
+  .proj-desc { font-size: 14px; color: var(--muted); flex: 1; }
+  .proj-lang { font-size: 12.5px; color: var(--muted); }
+  .proj-lang::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); margin-right: 6px; opacity: .7; }
+  .proj-more { margin-top: 16px; font-size: 15px; }
+
+  footer {
+    max-width: 820px; margin: 0 auto; padding: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 13.5px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .intro { flex-direction: column-reverse; align-items: center; text-align: left; }
+    .photo { width: 140px; height: 140px; }
+    .intro h1 { font-size: 30px; }
+    .card { grid-template-columns: 1fr; }
+    .thumb { width: 100%; height: 90px; }
+    .news li { grid-template-columns: 1fr; gap: 0; }
+    .entry { grid-template-columns: 1fr; }
+    .entry .date { grid-row: auto; grid-column: 1; }
+    .nav-links a { margin-left: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">Hritik Chaudhary</a>
+    <nav class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <!-- Put your CV PDF at assets/cv/Hritik_Chaudhary_CV.pdf -->
+      <a href="assets/cv/HritikCV_phd.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="#awards">Awards</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro">
+    <div class="intro-text">
+      <h1>Hritik Chaudhary</h1>
+      <p class="role">BSc Computational Mathematics, Kathmandu University &middot; Kathmandu, Nepal</p>
+
+      <p>I work on queueing theory and applied probability, mainly matrix-analytic methods: quasi-birth-and-death (QBD) processes, Markovian arrival processes (MAPs) and phase-type distributions.</p>
+
+      <p>My undergraduate thesis modeled transaction confirmation time in a permissioned central bank digital currency (CBDC) system. I checked the model against a SimPy simulation and a Hyperledger Fabric prototype. I have since rebuilt the model stage by stage, added matrix-analytic methods for bursty traffic, and checked it on a five-institution Fabric testbed. I am also interested in game theory, in particular bargaining problems where the arrivals follow a MAP.</p>
+
+      <p>I graduated in July 2026 with a CGPA of 3.90/4.00. Since 2022 I have also taught A-Level mathematics, both at home and online.</p>
+
+      <div class="callout">I am looking for a funded PhD position starting in 2027. If my work fits your group, please <a href="mailto:kitirhhritik@gmail.com">email me</a>.</div>
+
+      <div class="links">
+        <a href="mailto:kitirhhritik@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2 .9v11.6h16V6.4l-8 5.6-8-5.6ZM5.3 6l6.7 4.7L18.7 6H5.3Z"/></svg>
+          Email</a>
+        <a href="https://github.com/HritikChaudhary04" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub</a>
+        <a href="https://www.linkedin.com/in/hritik-chaudhary-124666203/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4V9.5Z"/></svg>
+          LinkedIn</a>
+        <a href="assets/cv/HritikCV_phd.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M6 2h8l6 6v12.5A1.5 1.5 0 0 1 18.5 22h-13A1.5 1.5 0 0 1 4 20.5v-17A1.5 1.5 0 0 1 5.5 2H6Zm7 1.5V9h5.5L13 3.5ZM8 13v1.5h8V13H8Zm0 3.5V18h8v-1.5H8Z"/></svg>
+          CV (PDF)</a>
+      </div>
+    </div>
+    <!-- Put a square photo at assets/img/profile.jpg -->
+    <img class="photo" src="assets/img/profile.jpeg" alt="Photo of Hritik Chaudhary">
+  </section>
+
+  <!-- ============ NEWS ============ -->
+  <section id="news">
+    <h2>News</h2>
+    <ul class="news">
+      <li><time>Nov 2026</time><span>Applying for PhD programs with a 2027 start.</span></li>
+      <li><time>Oct 2026</time><span>Finished the measurement campaign on a new five-institution Hyperledger Fabric testbed for the revised CBDC paper.</span></li>
+      <li><time>Jul 2026</time><span>Graduated with a BSc in Computational Mathematics from Kathmandu University (CGPA 3.90/4.00).</span></li>
+      <li><time>Jun 2026</time><span>IELTS Academic overall band 7.5.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ RESEARCH ============ -->
+  <section id="research">
+    <h2>Research</h2>
+    <div class="cards">
+
+      <article class="card">
+        <a class="thumb" href="research/cbdc-confirmation-time/index.html">
+          <img src="assets/img/research/cbdc-validation.png" alt="Model vs testbed confirmation time" loading="lazy">
+        </a>
+        <div>
+          <span class="status progress">Revising for resubmission</span>
+          <h3><a href="research/cbdc-confirmation-time/index.html">Confirmation time in a permissioned retail CBDC</a></h3>
+          <p>A queueing model of the Hyperledger Fabric pipeline, extended with matrix-analytic methods for bursty traffic and checked on a five-institution testbed over 230 measured rounds. Grew out of my undergraduate thesis. <a href="research/cbdc-confirmation-time/index.html">Details &rarr;</a></p>
+          <div class="tags"><span class="tag">queueing theory</span><span class="tag">matrix-analytic methods</span><span class="tag">Hyperledger Fabric</span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="research/quantum-error-mitigation/index.html">
+          <img src="assets/img/research/teleportation-circuit.png" alt="Quantum teleportation circuit" loading="lazy">
+        </a>
+        <div>
+          <span class="status review">Under review</span>
+          <h3><a href="research/quantum-error-mitigation/index.html">Neural-network error mitigation for quantum teleportation and superdense coding</a></h3>
+          <p>With Gokul K.C. Tests whether small neural networks beat classical decoders and calibration fits under finite-shot noise. They match the optimal decoder but do not beat it. Under review at <em>Revista Mexicana de F&iacute;sica</em> (Education). <a href="research/quantum-error-mitigation/index.html">Details &rarr;</a></p>
+          <div class="tags"><span class="tag">quantum information</span><span class="tag">neural networks</span><span class="tag">error mitigation</span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="research/holomorphic-approximation/index.html">
+          <img src="assets/img/research/holomorphic-surfaces.png" alt="Approximation and error surfaces" loading="lazy">
+        </a>
+        <div>
+          <span class="status review">Under review</span>
+          <h3><a href="research/holomorphic-approximation/index.html">Numerical approximation of holomorphic functions in two complex variables</a></h3>
+          <p>With Himanshu Gurung and Prajwol Aryal. Four classical methods compared at matched degree on a complex polydisc: the best method depends on where the nearest singularity is. Under review at <em>SIAM Undergraduate Research Online</em>. <a href="research/holomorphic-approximation/index.html">Details &rarr;</a></p>
+          <div class="tags"><span class="tag">complex analysis</span><span class="tag">approximation theory</span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="research/game-theory/index.html">
+          <img src="assets/img/research/gametheory-tournament.png" alt="Tournament scores between strategies" loading="lazy">
+        </a>
+        <div>
+          <span class="status done">Completed Jan 2024</span>
+          <h3><a href="research/game-theory/index.html">Concepts of game theory and its visualization</a></h3>
+          <p>Second-year group project, supervised by Dr. Sushil Ghimire. Seven strategies in the repeated game of trust, coded in Python and played against each other in a tournament. <a href="research/game-theory/index.html">Details &rarr;</a></p>
+          <div class="tags"><span class="tag">game theory</span><span class="tag">visualization</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <h4 class="proj-group">Research code</h4>
+    <div class="proj-grid">
+      <a class="proj" href="https://github.com/HritikChaudhary04/cbdc_v2" target="_blank" rel="noopener">
+        <span class="proj-name">cbdc_v2</span>
+        <span class="proj-desc">Model code, simulations and Fabric testbed analysis for the revised CBDC paper. Archived on Zenodo.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/CBDC_SIMULATION" target="_blank" rel="noopener">
+        <span class="proj-name">CBDC_SIMULATION</span>
+        <span class="proj-desc">SimPy simulation of CBDC confirmation-time queueing models from my undergraduate thesis.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/Neural-Network-Error-Mitigation-for-Quantum-Teleportation-and-Superdense-Coding" target="_blank" rel="noopener">
+        <span class="proj-name">Neural-Network-Error-Mitigation-for-Quantum-Teleportation-and-Superdense-Coding</span>
+        <span class="proj-desc">Small neural networks as post-processing for noisy teleportation and superdense coding, against classical baselines.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/M-M-1_Queue_using_python" target="_blank" rel="noopener">
+        <span class="proj-name">M-M-1_Queue_using_python</span>
+        <span class="proj-desc">Queueing analysis of bank queues in Nepal: M/M/1 and M/M/1/N in Python, alongside TORA. Supervised by Dr. Sushil Ghimire.</span>
+        <span class="proj-lang">Python</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/Numerical_Methods_Using_Python" target="_blank" rel="noopener">
+        <span class="proj-name">Numerical_Methods_Using_Python</span>
+        <span class="proj-desc">Root finding, numerical integration and ODE solvers (bisection, Newton-Raphson, Simpson, Euler and more) in Python notebooks.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/GameTheory" target="_blank" rel="noopener">
+        <span class="proj-name">GameTheory</span>
+        <span class="proj-desc">Seven strategies in the repeated game of trust, coded in Python and played in a tournament. Report included.</span>
+        <span class="proj-lang">Report</span>
+      </a>
+    </div>
+    <h4 class="proj-group">Machine learning</h4>
+    <div class="proj-grid">
+      <a class="proj" href="https://github.com/HritikChaudhary04/HandwrittenMinst" target="_blank" rel="noopener">
+        <span class="proj-name">HandwrittenMinst</span>
+        <span class="proj-desc">Handwritten digit recognition on MNIST with a PyTorch neural network.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/FlowerClassificationUsingML" target="_blank" rel="noopener">
+        <span class="proj-name">FlowerClassificationUsingML</span>
+        <span class="proj-desc">Flower species classifier with PyTorch transfer learning (VGG16), with command-line train and predict scripts.</span>
+        <span class="proj-lang">Python</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/Transformers" target="_blank" rel="noopener">
+        <span class="proj-name">Transformers</span>
+        <span class="proj-desc">Notebooks on transformer models for NLP: an introduction and text classification.</span>
+        <span class="proj-lang">Jupyter Notebook</span>
+      </a>
+    </div>
+    <h4 class="proj-group">Coursework</h4>
+    <div class="proj-grid">
+      <a class="proj" href="https://github.com/HritikChaudhary04/CampusNetworkSystemUsingCISCO" target="_blank" rel="noopener">
+        <span class="proj-name">CampusNetworkSystemUsingCISCO</span>
+        <span class="proj-desc">A campus network designed and implemented in Cisco Packet Tracer (COMP 204 team project).</span>
+        <span class="proj-lang">Packet Tracer</span>
+      </a>
+      <a class="proj" href="https://github.com/HritikChaudhary04/DSA-Codes-IN-C" target="_blank" rel="noopener">
+        <span class="proj-name">DSA-Codes-IN-C</span>
+        <span class="proj-desc">Linked lists, stacks, queues, trees, graphs, sorting and searching in C, plus a library management system.</span>
+        <span class="proj-lang">C</span>
+      </a>
+    </div>
+    <p class="proj-more"><a href="https://github.com/HritikChaudhary04" target="_blank" rel="noopener">All repositories on GitHub &rarr;</a></p>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education">
+    <h2>Education</h2>
+    <div class="entries">
+      <div class="entry">
+        <span class="title">BSc in Computational Mathematics</span>
+        <span class="date">2022 &ndash; 2026</span>
+        <span class="org"><a href="https://ku.edu.np" target="_blank" rel="noopener">Kathmandu University</a>, Dhulikhel, Nepal</span>
+        <span class="detail">CGPA 3.90/4.00. Thesis on CBDC transaction confirmation time (grade A). Mathematics research seminar (grade A).</span>
+      </div>
+      <div class="entry">
+        <span class="title">Cambridge GCE A-Levels</span>
+        <span class="date">2020</span>
+        <span class="org">Little Angels' College, Kathmandu</span>
+        <span class="detail">A* in Mathematics, Physics, Computer Science and Chemistry.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <h2>Experience</h2>  
+    <div class="entries">
+      <div class="entry">
+        <span class="title">Student Researcher, UGC-funded project</span>
+        <span class="date">2025</span>
+        <span class="org">Feasibility and Risk Assessment of Central Bank Digital Currency (CBDC) in Nepal &middot; University Grants Commission, Nepal &middot; Kathmandu University</span>
+        <span class="detail">Project led by Assoc. Prof. Dr. Gokul K.C. (Principal Investigator) and Assoc. Prof. Dr. Samir Shrestha (Co-Investigator). I did the queueing analysis of CBDC transaction confirmation time, which became my undergraduate thesis and the <a href="research/cbdc-confirmation-time/index.html">CBDC paper</a>.</span>
+      </div>
+      <div class="entry">
+        <span class="title">Mathematics Tutor (self-employed)</span>
+        <span class="date">2022 &ndash; present</span>
+        <span class="org">Kathmandu and online</span>
+        <span class="detail">Home tutoring and online A-Level mathematics tuition.</span>
+      </div>
+      <div class="entry">
+        <span class="title">Secretary</span>
+        <span class="org">KU Computational Mathematics Club, Kathmandu University</span>
+      </div>
+      <div class="entry">
+        <span class="title">Event Manager</span>
+        <span class="date">2024</span>
+        <span class="org">Infinity 2024, Kathmandu University</span>
+      </div>
+    </div>
+  </section>
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <h2>Technical skills</h2>
+    <div class="entries">
+      <div class="entry">
+        <span class="title">Programming</span>
+        <span class="detail">Python, C, C++, MATLAB, LaTeX (proficient); JavaScript, SQL, SageMath (familiar)</span>
+      </div>
+      <div class="entry">
+        <span class="title">Scientific computing</span>
+        <span class="detail">NumPy, SimPy, discrete-event simulation, Jupyter</span>
+      </div>
+      <div class="entry">
+        <span class="title">Machine learning</span>
+        <span class="detail">PyTorch, neural networks, transfer learning</span>
+      </div>
+      <div class="entry">
+        <span class="title">Distributed systems</span>
+        <span class="detail">Hyperledger Fabric, Hyperledger Caliper (benchmarking)</span>
+      </div>
+      <div class="entry">
+        <span class="title">Web</span>
+        <span class="detail">HTML, CSS, React.js, WordPress</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COURSES ============ -->
+  <section id="courses">
+    <h2>Courses</h2>
+    <div class="entries">
+      <div class="entry">
+        <span class="title">AI Programming with Python Nanodegree</span>
+        <span class="date">Jan 2024</span>
+        <span class="org">Udacity, on an AWS-funded scholarship</span>
+        <span class="detail">Python, NumPy, pandas and PyTorch for AI. Final project: a <a href="https://github.com/HritikChaudhary04/FlowerClassificationUsingML" target="_blank" rel="noopener">flower image classifier</a>.</span>
+      </div>
+      <div class="entry">
+        <span class="title">AWS Machine Learning Fundamentals Nanodegree</span>
+        <span class="date">May 2024</span>
+        <span class="org">Udacity, on an AWS-funded scholarship</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section id="awards">
+    <h2>Awards and scholarships</h2>
+    <div class="entries">
+      <div class="entry">
+        <span class="title">Academic Merit Scholarship</span>
+        <span class="date">BSc, 2022 &ndash; 2026</span>
+        <span class="org">Kathmandu University</span>
+      </div>
+      <div class="entry">
+        <span class="title">AWS AI &amp; ML Scholarships</span>
+        <span class="date">2024</span>
+        <span class="org">Amazon Web Services and Udacity, funding the two nanodegrees above</span>
+      </div>
+      <div class="entry">
+        <span class="title">Co-discoverer of a provisional asteroid</span>
+        <span class="date">2020</span>
+        <span class="org">All Nepal Asteroid Search (NASO), International Astronomical Search Collaboration</span>
+        <span class="detail">One of eleven provisional discoveries recorded by the Nepal team.</span>
+      </div>
+      <div class="entry">
+        <span class="title">Merit Scholarship and Academic Excellence Award</span>
+        <span class="date">2018 &ndash; 2020</span>
+        <span class="org">Little Angels' College, GCE A-Levels</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>&copy; 2026 Hritik Chaudhary</span>
+  <span>Last updated: November 2026</span>
+</footer>
+
+</body>
+</html>

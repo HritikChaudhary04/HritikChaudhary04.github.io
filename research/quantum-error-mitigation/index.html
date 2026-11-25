@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Neural-network error mitigation for quantum teleportation and superdense coding | Hritik Chaudhary</title>
+<meta name="description" content="Do small neural networks beat standard decoders and calibration fits for noisy teleportation and superdense coding? A finite-shot simulation study.">
+<meta property="og:title" content="Neural-network error mitigation for quantum teleportation and superdense coding">
+<meta property="og:description" content="Do small neural networks beat standard decoders and calibration fits for noisy teleportation and superdense coding? A finite-shot simulation study.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --text: #1f2328; --muted: #5d646d; --line: #e4e1da; --card: #ffffff;
+    --accent: #1d5c8c; --tag-bg: #eef3f7; --tag-text: #2b4f6b; --amber: #a15c00; --amber-bg: #fdf1df;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a; --text: #e6e6e3; --muted: #9aa1a9; --line: #2b2f35; --card: #1c1f23;
+      --accent: #7db4e0; --tag-bg: #22303b; --tag-text: #a9cbe6; --amber: #f0b56a; --amber-bg: #3a2c19;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px; line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { max-width: 760px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-weight: 600; color: var(--text); }
+  .nav-links a { margin-left: 22px; color: var(--muted); font-size: 15px; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 44px 24px 24px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 14px; }
+  h2 { font-size: 23px; margin: 44px 0 12px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); font-size: 14.5px; margin-bottom: 12px; }
+  .status { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; color: var(--amber); background: var(--amber-bg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .tag { font-size: 12.5px; padding: 2px 9px; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 28px; }
+  .buttons a { border: 1px solid var(--line); background: var(--card); padding: 5px 13px; border-radius: 999px; color: var(--text); font-size: 14px; }
+  .buttons a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  figure { margin: 0 0 8px; }
+  figure img { width: 100%; max-width: 560px; display: block; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid var(--line); padding: 8px; }
+  figcaption { font-style: italic; color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .katex-display { margin: 14px 0; overflow-x: auto; overflow-y: hidden; }
+  .back { display: inline-block; margin-top: 40px; }
+  footer { max-width: 760px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .nav-links a { margin-left: 14px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../">Hritik Chaudhary</a>
+    <nav class="nav-links">
+      <a href="../../#research">Research</a>
+      <a href="../../#projects">Projects</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../assets/cv/Hritik_Chaudhary_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Neural-network error mitigation for quantum teleportation and superdense coding</h1>
+
+  <div class="meta">
+    <span class="status" style="color:var(--accent);background:var(--tag-bg)">Under review</span>
+    <span>2026</span>
+    <span>With Gokul K.C., Kathmandu University</span>
+  </div>
+  <div class="tags">
+    <span class="tag">quantum information</span><span class="tag">neural networks</span>
+    <span class="tag">error mitigation</span><span class="tag">simulation</span>
+  </div>
+  <div class="buttons">
+    <a href="https://github.com/HritikChaudhary04/Neural-Network-Error-Mitigation-for-Quantum-Teleportation-and-Superdense-Coding" target="_blank" rel="noopener">Code (GitHub)</a>
+  </div>
+
+  <figure>
+    <img src="../../assets/img/research/teleportation-circuit.png" alt="Quantum teleportation circuit with Alice, Bob and classical corrections">
+    <figcaption>The teleportation circuit. Alice measures $m_1, m_2$ and sends them to Bob, who applies $X^{m_2}Z^{m_1}$. In our noise model a fixed rotation and per-qubit jitter corrupt this pipeline.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>Quantum teleportation and superdense coding are two of the basic protocols of quantum communication. On real hardware both are hit by noise, and every result is estimated from a finite number of measurement shots. A common idea is to add a small neural network after measurement to clean up the output. I wanted to know how much such a network actually helps.</p>
+
+  <h2>Why the comparison needs strong baselines</h2>
+  <p>A network that beats the raw, uncorrected output is easy to build, so that comparison says little. The fair question is whether it beats the classical methods someone would use anyway: a decoder that knows the channel, or a direct fit of the calibration error. If it only matches them, the network has learned the classical answer, not found a better one.</p>
+
+  <h2>My approach</h2>
+  <ol>
+    <li><strong>Superdense coding.</strong> The noise is a biased Pauli channel plus an asymmetric readout error. I compared majority vote, a channel-aware maximum-likelihood decoder, and a learned decoder, across different numbers of shots.</li>
+    <li><strong>Teleportation.</strong> The noise is a fixed systematic rotation $R_{\text{fix}}$ plus per-qubit jitter, and the output state is estimated by finite-shot tomography. I compared the uncorrected state, a least-squares estimate of the fixed rotation, and a learned corrector.</li>
+    <li><strong>Statistics.</strong> Every comparison is repeated over several random seeds and reported with 95% confidence intervals. The seed lists are fixed so the tables can be reproduced exactly.</li>
+    <li><strong>Generalisation test.</strong> I trained the corrector on one fixed rotation and tested it on a different one.</li>
+  </ol>
+
+  <h2>Results</h2>
+  <ul>
+    <li>In superdense coding the learned decoder beats majority vote but only matches the maximum-likelihood decoder; the two agree within the 95% intervals. The network approximates the optimal decoder; it does not exceed it.</li>
+    <li>In teleportation the least-squares baseline recovers most of the lost fidelity and estimates $R_{\text{fix}}^{-1}$ to a Frobenius distance of about 0.02. The network adds only about 1 to 2 points on top, from the nonlinear jitter and tomographic noise.</li>
+    <li>A corrector trained on one rotation does not transfer to another. It learns the specific calibration, not a general correction.</li>
+  </ul>
+
+  <h2>Where it stands</h2>
+  <ul>
+    <li>Under review in the Education section of <em>Revista Mexicana de F&iacute;sica</em>. The paper is written as a careful worked comparison, which suits a teaching venue.</li>
+  </ul>
+
+  <a class="back" href="../../#research">&larr; All research</a>
+</main>
+
+<footer>
+  <span>&copy; 2026 Hritik Chaudhary</span>
+  <span>Last updated: November 2026</span>
+</footer>
+
+</body>
+</html>

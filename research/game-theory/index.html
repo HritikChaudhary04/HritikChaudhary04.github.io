@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Concepts of game theory and its visualization | Hritik Chaudhary</title>
+<meta name="description" content="Second-year project: game theory basics and a Python tournament between strategies in the repeated game of trust.">
+<meta property="og:title" content="Concepts of game theory and its visualization">
+<meta property="og:description" content="Second-year project: game theory basics and a Python tournament between strategies in the repeated game of trust.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --text: #1f2328; --muted: #5d646d; --line: #e4e1da; --card: #ffffff;
+    --accent: #1d5c8c; --tag-bg: #eef3f7; --tag-text: #2b4f6b; --amber: #a15c00; --amber-bg: #fdf1df;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a; --text: #e6e6e3; --muted: #9aa1a9; --line: #2b2f35; --card: #1c1f23;
+      --accent: #7db4e0; --tag-bg: #22303b; --tag-text: #a9cbe6; --amber: #f0b56a; --amber-bg: #3a2c19;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px; line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { max-width: 760px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-weight: 600; color: var(--text); }
+  .nav-links a { margin-left: 22px; color: var(--muted); font-size: 15px; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 44px 24px 24px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 14px; }
+  h2 { font-size: 23px; margin: 44px 0 12px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); font-size: 14.5px; margin-bottom: 12px; }
+  .status { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; color: var(--amber); background: var(--amber-bg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .tag { font-size: 12.5px; padding: 2px 9px; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 28px; }
+  .buttons a { border: 1px solid var(--line); background: var(--card); padding: 5px 13px; border-radius: 999px; color: var(--text); font-size: 14px; }
+  .buttons a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  figure { margin: 0 0 8px; }
+  figure img { width: 100%; max-width: 560px; display: block; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid var(--line); padding: 8px; }
+  figcaption { font-style: italic; color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .katex-display { margin: 14px 0; overflow-x: auto; overflow-y: hidden; }
+  .back { display: inline-block; margin-top: 40px; }
+  footer { max-width: 760px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .nav-links a { margin-left: 14px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../">Hritik Chaudhary</a>
+    <nav class="nav-links">
+      <a href="../../#research">Research</a>
+      <a href="../../#projects">Projects</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../assets/cv/Hritik_Chaudhary_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Concepts of game theory and its visualization</h1>
+
+  <div class="meta">
+    <span class="status" style="color:var(--green,#2c6e3f);background:var(--green-bg,#e7f3ea)">Completed</span>
+    <span>January 2024 &middot; Math 252 project</span>
+    <span>With Priya Kumari Jaiswal, Abhinaash Tiwari and Siman Mehta. Supervisor: Dr. Sushil Ghimire</span>
+  </div>
+  <div class="tags">
+    <span class="tag">game theory</span><span class="tag">Nash equilibrium</span>
+    <span class="tag">repeated games</span><span class="tag">Python</span>
+  </div>
+  <div class="buttons">
+    <a href="https://github.com/HritikChaudhary04/GameTheory" target="_blank" rel="noopener">Report (GitHub)</a>
+  </div>
+
+  <figure>
+    <img src="../../assets/img/research/gametheory-tournament.png" alt="Bar charts of final scores after 10 rounds for pairs of strategies">
+    <figcaption>Scores after 10 rounds for pairs of strategies. Two cooperative strategies both reach 20; All Cheat against All Cooperate ends 30 to &minus;10.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>This was our second-year project in Computational Mathematics. We wanted to learn the core ideas of game theory (zero-sum games, saddle points, Nash equilibrium and mixed strategies) and then see them at work in a game we could simulate.</p>
+
+  <h2>The game</h2>
+  <p>We used the game of trust, a repeated prisoner's dilemma made popular by Nicky Case's <em>The Evolution of Trust</em>. Each round, both players choose to cooperate or cheat. Putting a coin into the machine costs you one coin and gives the other player three. In a single round, cheating is always the better reply, so mutual cheating is the Nash equilibrium. Over many rounds the picture changes.</p>
+
+  <h2>Our approach</h2>
+  <ol>
+    <li><strong>Theory.</strong> We worked through two-person zero-sum games, saddle points, mixed strategies and the computation of optimal mixed strategies.</li>
+    <li><strong>Strategies as code.</strong> We wrote seven strategies in Python, each as a function of the move history: Copycat, All Cooperate, All Cheat, Grudger, Detective, Copykitten and Simpleton.</li>
+    <li><strong>Tournament.</strong> Every pair of strategies played a 10-round match. Each round's moves and scores were written to a CSV file and then plotted.</li>
+    <li><strong>Mistakes.</strong> We looked at what happens when a player makes an unintended move.</li>
+  </ol>
+
+  <h2>Results</h2>
+  <ul>
+    <li>When both players cooperate throughout, both get the highest total, 20 coins each after 10 rounds.</li>
+    <li>When both cheat, both get 0, matching the Nash equilibrium of the single-round game.</li>
+    <li>Unconditional cooperation is easy to exploit: All Cheat beats All Cooperate 30 to &minus;10, and Detective also takes advantage of it.</li>
+    <li>Copycat ties every cooperative strategy, but it has a weak spot: if one of two Copycats cheats by accident, the other copies it and they fall into an endless cycle of retaliation that started from a single mistake.</li>
+  </ul>
+
+  <h2>Where it led</h2>
+  <ul>
+    <li>I want to come back to game theory and combine it with queueing models, for example bargaining between players whose arrivals follow a Markovian arrival process.</li>
+  </ul>
+
+  <a class="back" href="../../#research">&larr; All research</a>
+</main>
+
+<footer>
+  <span>&copy; 2026 Hritik Chaudhary</span>
+  <span>Last updated: November 2026</span>
+</footer>
+
+</body>
+</html>

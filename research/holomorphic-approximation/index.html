@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Numerical approximation of holomorphic functions in two complex variables | Hritik Chaudhary</title>
+<meta name="description" content="Taylor, Lagrange, Pade and Chebyshev spectral approximation compared on holomorphic functions of two complex variables at matched degree.">
+<meta property="og:title" content="Numerical approximation of holomorphic functions in two complex variables">
+<meta property="og:description" content="Taylor, Lagrange, Pade and Chebyshev spectral approximation compared on holomorphic functions of two complex variables at matched degree.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --text: #1f2328; --muted: #5d646d; --line: #e4e1da; --card: #ffffff;
+    --accent: #1d5c8c; --tag-bg: #eef3f7; --tag-text: #2b4f6b; --amber: #a15c00; --amber-bg: #fdf1df;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a; --text: #e6e6e3; --muted: #9aa1a9; --line: #2b2f35; --card: #1c1f23;
+      --accent: #7db4e0; --tag-bg: #22303b; --tag-text: #a9cbe6; --amber: #f0b56a; --amber-bg: #3a2c19;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px; line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { max-width: 760px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-weight: 600; color: var(--text); }
+  .nav-links a { margin-left: 22px; color: var(--muted); font-size: 15px; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 44px 24px 24px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 14px; }
+  h2 { font-size: 23px; margin: 44px 0 12px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); font-size: 14.5px; margin-bottom: 12px; }
+  .status { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; color: var(--amber); background: var(--amber-bg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .tag { font-size: 12.5px; padding: 2px 9px; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 28px; }
+  .buttons a { border: 1px solid var(--line); background: var(--card); padding: 5px 13px; border-radius: 999px; color: var(--text); font-size: 14px; }
+  .buttons a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  figure { margin: 0 0 8px; }
+  figure img { width: 100%; max-width: 560px; display: block; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid var(--line); padding: 8px; }
+  figcaption { font-style: italic; color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .katex-display { margin: 14px 0; overflow-x: auto; overflow-y: hidden; }
+  .back { display: inline-block; margin-top: 40px; }
+  footer { max-width: 760px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .nav-links a { margin-left: 14px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../">Hritik Chaudhary</a>
+    <nav class="nav-links">
+      <a href="../../#research">Research</a>
+      <a href="../../#projects">Projects</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../assets/cv/Hritik_Chaudhary_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Numerical approximation of holomorphic functions in two complex variables</h1>
+
+  <div class="meta">
+    <span class="status" style="color:var(--accent);background:var(--tag-bg)">Under review</span>
+    <span>2025 &ndash; 2026</span>
+    <span>With Himanshu Gurung and Prajwol Aryal (I led the team). Advisor: Prof. Dr. Kanhaiya Jha</span>
+  </div>
+  <div class="tags">
+    <span class="tag">complex analysis</span><span class="tag">approximation theory</span>
+    <span class="tag">Pad&eacute; approximation</span><span class="tag">Chebyshev methods</span>
+  </div>
+
+  <figure>
+    <img src="../../assets/img/research/holomorphic-surfaces.png" alt="Surfaces of the four approximations and their absolute errors for the non-rational pole target">
+    <figcaption>The non-rational pole target $e^{z_1+z_2}/(2-z_1-z_2)$ at budget $n=6$. Top: the four approximations. Bottom: their absolute errors. Note the error scales: Pad&eacute; peaks near 1.2, the others between 12 and 18.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>There are several classical ways to approximate a holomorphic function: a truncated Taylor series, interpolation, rational (Pad&eacute;) approximation and spectral projection. In one variable their behaviour is well understood. We asked which one to use for a function of two complex variables, $f(z_1, z_2)$, and what decides the answer.</p>
+
+  <h2>What makes a fair comparison</h2>
+  <p>A comparison like this is easy to get wrong. If one method runs at a higher degree than another, the "winner" just had more terms. If the error is measured only on real inputs, it says little about a function of complex variables. And if a test function is itself a ratio of polynomials, Pad&eacute; recovers it exactly, which looks like a great result but says nothing about how well it approximates.</p>
+
+  <h2>Our approach</h2>
+  <ol>
+    <li><strong>Four methods at matched degree:</strong> truncated Taylor series, tensor-product Lagrange interpolation at Chebyshev nodes, Pad&eacute; rational approximation, and Chebyshev spectral projection. All are controlled by one budget parameter $n$.</li>
+    <li><strong>Error on a complex polydisc</strong>, not on a real slice.</li>
+    <li><strong>Four test functions that differ in one property:</strong> where the nearest singularity is and what type it is. One is entire, $e^{z_1+z_2}$. One has a pole just outside the sampling region, $1/(2-z_1-z_2)$. One has the same pole carried by a non-rational factor, $e^{z_1+z_2}/(2-z_1-z_2)$. One has a branch point, $\sqrt{2+z_1+z_2}$.</li>
+    <li><strong>A control target.</strong> The non-rational pole function is there so that Pad&eacute; cannot win by recovering the target exactly.</li>
+  </ol>
+
+  <h2>Results</h2>
+  <ul>
+    <li>No method is best everywhere. The best method tracks the analytic structure of the target.</li>
+    <li>Chebyshev spectral projection is the most accurate for the entire function and the worst of the four when a pole lies near the domain.</li>
+    <li>Pad&eacute; is best for every target with a nearby singularity. On the non-rational pole target, where exact recovery is impossible, it still beats the next-best method by roughly two orders of magnitude, and it keeps converging as the budget grows while the polynomial methods diverge.</li>
+  </ul>
+
+  <h2>Where it stands</h2>
+  <ul>
+    <li>Under review at <em>SIAM Undergraduate Research Online</em> (SIURO). The project started in my seventh-semester mathematics seminar (Math 451) at Kathmandu University.</li>
+  </ul>
+
+  <a class="back" href="../../#research">&larr; All research</a>
+</main>
+
+<footer>
+  <span>&copy; 2026 Hritik Chaudhary</span>
+  <span>Last updated: November 2026</span>
+</footer>
+
+</body>
+</html>

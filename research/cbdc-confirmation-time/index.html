@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Confirmation time in a permissioned retail CBDC | Hritik Chaudhary</title>
+<meta name="description" content="A queueing model of transaction confirmation time in a Hyperledger Fabric CBDC network, checked on a five-institution testbed.">
+<meta property="og:title" content="Confirmation time in a permissioned retail CBDC">
+<meta property="og:description" content="A queueing model of the Hyperledger Fabric pipeline, checked on a five-institution testbed.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --text: #1f2328; --muted: #5d646d; --line: #e4e1da; --card: #ffffff;
+    --accent: #1d5c8c; --tag-bg: #eef3f7; --tag-text: #2b4f6b; --amber: #a15c00; --amber-bg: #fdf1df;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a; --text: #e6e6e3; --muted: #9aa1a9; --line: #2b2f35; --card: #1c1f23;
+      --accent: #7db4e0; --tag-bg: #22303b; --tag-text: #a9cbe6; --amber: #f0b56a; --amber-bg: #3a2c19;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px; line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { max-width: 760px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-weight: 600; color: var(--text); }
+  .nav-links a { margin-left: 22px; color: var(--muted); font-size: 15px; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 44px 24px 24px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 14px; }
+  h2 { font-size: 23px; margin: 44px 0 12px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; color: var(--muted); font-size: 14.5px; margin-bottom: 12px; }
+  .status { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; color: var(--amber); background: var(--amber-bg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .tag { font-size: 12.5px; padding: 2px 9px; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 28px; }
+  .buttons a { border: 1px solid var(--line); background: var(--card); padding: 5px 13px; border-radius: 999px; color: var(--text); font-size: 14px; }
+  .buttons a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  figure { margin: 0 0 8px; }
+  figure img { width: 100%; max-width: 560px; display: block; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid var(--line); padding: 8px; }
+  figcaption { font-style: italic; color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .katex-display { margin: 14px 0; overflow-x: auto; overflow-y: hidden; }
+  .back { display: inline-block; margin-top: 40px; }
+  footer { max-width: 760px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .nav-links a { margin-left: 14px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../">Hritik Chaudhary</a>
+    <nav class="nav-links">
+      <a href="../../#research">Research</a>
+      <a href="../../#projects">Projects</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../assets/cv/Hritik_Chaudhary_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Confirmation time in a permissioned retail CBDC: a queueing model checked on a Hyperledger Fabric testbed</h1>
+
+  <div class="meta">
+    <span class="status">Revising for resubmission</span>
+    <span>2026 &ndash; present</span>
+    <span>With Gokul K.C. and Samir Shrestha, Kathmandu University</span>
+  </div>
+  <div class="tags">
+    <span class="tag">queueing theory</span><span class="tag">matrix-analytic methods</span>
+    <span class="tag">Hyperledger Fabric</span><span class="tag">central bank digital currency</span>
+  </div>
+
+  <div class="buttons">
+    <a href="https://doi.org/10.5281/zenodo.23838921" target="_blank" rel="noopener">Code and data (Zenodo)</a>
+    <a href="https://github.com/HritikChaudhary04/cbdc_v2" target="_blank" rel="noopener">GitHub</a>
+  </div>
+
+  <figure>
+    <img src="../../assets/img/research/cbdc-validation.png" alt="Mean confirmation time against offered load for block sizes 10, 50 and 100: model curves and testbed measurements">
+    <figcaption>Mean confirmation time against offered load for three block sizes. Lines are the model with parameters measured at low load, squares the model with stage times measured at each load, dots the testbed repetitions. Open dots are congested runs, which the model does not predict.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>A retail central bank digital currency has to confirm payments quickly, and the delay has to be predictable. If the ledger is permissioned and run jointly by several institutions, every payment goes through several steps before it is final. A central bank planning such a system needs to know, before deployment, how long confirmation takes at a given load and which configuration keeps it short. Permissioned ledgers for a CBDC are rarely assessed this way.</p>
+  <p>I study this for Nepal. From the country's FY2023/24 payment volumes I derived a design load of 200 transactions per second.</p>
+
+  <h2>Why a single queue is not enough</h2>
+  <p>The simple answer is to treat the network as one server (M/M/1) or a pool of servers (M/M/c). Hyperledger Fabric does not work like that. A transaction is first endorsed by a quorum of institutions, then waits for a block to fill or for a timer to run out, then the block is replicated by Raft, and finally every peer validates and commits it. Each step adds delay in a different way. The endorsement step is a race between peers, and batching into blocks adds a delay that does not shrink as the servers get faster.</p>
+
+  <h2>My approach</h2>
+  <ol>
+    <li><strong>Endorsement.</strong> Each peer has its own queue. If a transaction needs $q$ of $c$ institutions to endorse it, its endorsement delay is the $q$-th smallest of the peers' sojourn times,
+      $$E = S_{(q:c)},$$
+      an order statistic. I give an upper bound for its mean under Fabric's standard dispatch rule and an approximation under hedged dispatch.</li>
+    <li><strong>Block formation.</strong> A block closes when it reaches $B$ transactions or when its timer expires. The mean formation delay under both limits has an exact expression.</li>
+    <li><strong>Replication and commitment.</strong> Raft replication and commitment at every peer are modelled as queues whose delay grows with load. The end-to-end confirmation time is the sum of the stages.</li>
+    <li><strong>Bursty traffic.</strong> I use matrix-analytic methods to handle arrivals that come in bursts (a Markovian arrival process) and service times that are not exponential (phase-type distributions). These are solved as quasi-birth-and-death processes. One result is that bursts do not change the mean block formation delay.</li>
+    <li><strong>Testbed.</strong> I built a five-institution Fabric network, measured the model's parameters on it, and compared its predictions with 230 five-minute measured rounds. The rounds vary block size, timer, endorsement threshold, workload, failures and surges.</li>
+  </ol>
+
+  <h2>Results so far</h2>
+  <ul>
+    <li>In simulation, the end-to-end formula is within &minus;0.6 to +5.7 percent, and each stage's expression within 9 percent.</li>
+    <li>On the testbed, the model with parameters measured at low load predicts confirmation time within 7 percent up to 50 transactions per second. With stage times measured at each load, it is within 11 percent up to 200.</li>
+    <li>The testbed also shows what the model misses. Small blocks make the network unstable far below its modelled capacity. So the planning procedure I propose ends with a measurement step on the real network.</li>
+    <li>At the 200 TPS design load, blocks of 100 transactions with three of five institutions endorsing were stable in every trial and confirmed payments in $0.47 \pm 0.02$ s.</li>
+    <li>Shared control costs about a third of a second compared with a single server of the same capacity, and almost all of that is batching.</li>
+  </ul>
+
+  <h2>What I am working on next</h2>
+  <ul>
+    <li>Finishing the revised manuscript and submitting it to a new journal.</li>
+    <li>Writing every matrix-analytic step into the paper itself (block matrices, the $R$ and $G$ computations, boundary equations and proofs), so a reader can reproduce each number without the code.</li>
+  </ul>
+
+  <a class="back" href="../../#research">&larr; All research</a>
+</main>
+
+<footer>
+  <span>&copy; 2026 Hritik Chaudhary</span>
+  <span>Last updated: November 2026</span>
+</footer>
+
+</body>
+</html>
